@@ -4,7 +4,9 @@ export function getClientEnvironment(): Record<string, string> {
   return Object.keys(process.env)
     .filter((key) => NX_APP.test(key) || key === 'NODE_ENV')
     .reduce((env, key) => {
-      env[`process.env.${key}`] = JSON.stringify(process.env[key]);
+      if (typeof process.env[key] !== 'undefined') {
+        env[`process.env.${key}`] = JSON.stringify(process.env[key]);
+      }
       return env;
     }, {});
 }
